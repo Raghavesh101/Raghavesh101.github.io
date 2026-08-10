@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- No-FOUC theme: set before first paint from saved choice or system preference -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem("portfolio-theme");
+        var prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        document.documentElement.setAttribute("data-theme", saved || (prefersDark ? "dark" : "light"));
+      } catch (e) {}
+    })();
+  </script>
+
+  <title>Raghavesh Mishra — Applied AI Engineer</title>
+  <meta name="description" content="Raghavesh Mishra — Applied AI Engineer building AI evaluation, agents, and RAG systems in production." />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Raghavesh Mishra — Applied AI Engineer" />
+  <meta property="og:description" content="AI evaluation, agents, and RAG systems in production." />
+  <meta property="og:image" content="assets/og-image.svg" />
+
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- Fonts: Fraunces (display serif) · Space Grotesk (body) · Space Mono (labels) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..600&family=Space+Grotesk:wght@300..600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="cursor" data-cursor aria-hidden="true"></div>
+  <div class="cursor-dot" data-cursor-dot aria-hidden="true"></div>
+
+  <a class="skip-link" href="#work">Skip to work</a>
+
+  <!-- ─────────────────────────── Header ─────────────────────────── -->
+  <header class="site-header">
+    <a href="#top" class="brand">RM<span class="brand-dot">.</span></a>
+
+    <nav class="nav" aria-label="Primary">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#experience">Experience</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <button class="theme-toggle" data-theme-toggle type="button" aria-label="Toggle color theme">
+      <span class="theme-toggle-label" data-theme-label>Dark</span>
+    </button>
+  </header>
+
+  <main id="top">
+    <!-- ─────────────────────────── Hero ─────────────────────────── -->
+    <section class="hero" id="hero">
+      <canvas class="hero-canvas" data-flowfield aria-hidden="true"></canvas>
+      <p class="eyebrow reveal" data-reveal>
+        <span class="eyebrow-dash"></span> Applied AI Engineer — Hyderabad, India
+      </p>
+
+      <h1 class="hero-title">
+        <span class="hero-line"><span class="hero-line-inner">Raghavesh</span></span>
+        <span class="hero-line"><span class="hero-line-inner hero-title-serif">Mishra</span></span>
+      </h1>
+
+      <p class="hero-lede reveal" data-reveal>
+        I build AI systems — then prove they actually work. The evals, the traces,
+        the edge cases everyone skips: that's my favourite part.
+      </p>
+
+      <div class="hero-meta reveal" data-reveal>
+        <span>Open to new work</span>
+        <span aria-hidden="true">/</span>
+        <span>Say hello below</span>
+      </div>
+    </section>
+
+    <!-- ─────────────────────── Roles marquee ─────────────────────── -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>RAG</span><span class="marquee-star">✳</span>
+        <span>ReAct Agents</span><span class="marquee-star">✳</span>
+        <span>LLM Evaluation</span><span class="marquee-star">✳</span>
+        <span>Fine-tuning</span><span class="marquee-star">✳</span>
+        <span>LLMOps</span><span class="marquee-star">✳</span>
+        <span>RAG</span><span class="marquee-star">✳</span>
+        <span>ReAct Agents</span><span class="marquee-star">✳</span>
+        <span>LLM Evaluation</span><span class="marquee-star">✳</span>
+        <span>Fine-tuning</span><span class="marquee-star">✳</span>
+        <span>LLMOps</span><span class="marquee-star">✳</span>
+      </div>
+    </div>
+
+    <!-- ─────────────────────────── About ─────────────────────────── -->
+    <section class="section about" id="about">
+      <p class="section-index">01 — About</p>
+      <div class="about-grid">
+        <h2 class="section-lead reveal" data-reveal>
+          My whole job is one question: does this actually work? Then I measure
+          until I'm sure.
+        </h2>
+        <div class="about-body reveal" data-reveal>
+          <p>
+            Right now I'm at Highspot, building the evals, agent pipelines, and
+            observability that show whether our AI features hold up against real
+            customer traffic — not just in a demo. Before that, Verizon, then research
+            at Samsung R&amp;D.
+          </p>
+          <p>
+            I studied Computer Science at VIT Vellore. Outside work, you'll usually
+            find me deep in a latency graph or chasing the one strange query that
+            breaks everything.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─────────────────────────── Work ──────────────────────────── -->
+    <section class="section work" id="work">
+      <p class="section-index">02 — Selected Work</p>
+
+      <ol class="proj-list">
+        <li class="proj-item reveal" data-reveal>
+          <a class="proj-link" href="https://github.com/Raghavesh101">
+            <span class="proj-head">
+              <span class="proj-name">Efficient GPT-2</span>
+              <span class="proj-year">2026 · WIP</span>
+            </span>
+            <span class="proj-desc">
+              Inference-efficiency study on GPT-2-small (Colab T4): operator fusion via
+              torch.compile / Inductor, INT8 quantization, and a hand-written Triton
+              kernel — guided by roofline analysis to quantify the latency, memory, and
+              accuracy trade-offs. A research-style artifact, currently in progress.
+            </span>
+            <span class="proj-tags">PyTorch · torch.compile · Triton · INT8 · Roofline</span>
+          </a>
+        </li>
+
+        <li class="proj-item reveal" data-reveal>
+          <a class="proj-link" href="https://github.com/Raghavesh101">
+            <span class="proj-head">
+              <span class="proj-name">ThrottleX</span>
+              <span class="proj-year">2024 · WIP</span>
+            </span>
+            <span class="proj-desc">
+              An in-progress distributed token-bucket rate limiter: a Redis-backed token
+              store shared across stateless nodes, trading strong consistency for low p95
+              latency, with local-fallback limiting and graceful degradation on Redis outages.
+            </span>
+            <span class="proj-tags">Go · Redis · Docker · Kubernetes</span>
+          </a>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ─────────────────────── Experience ────────────────────────── -->
+    <section class="section experience" id="experience">
+      <p class="section-index">03 — Experience</p>
+
+      <ol class="exp-list">
+        <li class="exp-item reveal" data-reveal>
+          <span class="exp-role">AI Software Engineer</span>
+          <span class="exp-company">Highspot India</span>
+          <span class="exp-period">2025 — Now</span>
+        </li>
+        <li class="exp-item reveal" data-reveal>
+          <span class="exp-role">Software Engineer Intern</span>
+          <span class="exp-company">Verizon India</span>
+          <span class="exp-period">2025</span>
+        </li>
+        <li class="exp-item reveal" data-reveal>
+          <span class="exp-role">Research Intern</span>
+          <span class="exp-company">Samsung R&amp;D</span>
+          <span class="exp-period">2023 — 2024</span>
+        </li>
+      </ol>
+
+      <p class="pub reveal" data-reveal>
+        <span class="pub-label">Publication</span>
+        Inference Optimization for Retrieval-Augmented Generation Pipelines —
+        caching, quantization &amp; model-parallelism cutting RAG latency
+        <span class="metric" data-count data-from="0" data-to="34.6" data-decimals="1" data-suffix="%">34.6%</span>
+        and memory
+        <span class="metric" data-count data-from="0" data-to="70.3" data-decimals="1" data-suffix="%">70.3%</span>.
+        <em>Under review, Springer.</em>
+      </p>
+    </section>
+
+    <!-- ─────────────────────────── Contact ───────────────────────── -->
+    <section class="section contact" id="contact">
+      <p class="section-index">04 — Contact</p>
+      <h2 class="contact-lead reveal" data-reveal>Come say hi —<br />I'd love to hear it.</h2>
+
+      <p class="contact-note reveal" data-reveal>
+        Whether it's a role, a research idea, or just a good AI problem — email is
+        best, and I read every real message.
+      </p>
+
+      <a class="contact-email reveal" data-reveal href="mailto:raghaveshm@gmail.com">raghaveshm@gmail.com</a>
+
+      <ul class="socials reveal" data-reveal>
+        <li><a href="https://github.com/Raghavesh101">GitHub ↗</a></li>
+        <!-- EDIT: replace with your exact LinkedIn URL -->
+        <li><a href="https://www.linkedin.com/in/raghavesh-mishra">LinkedIn ↗</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <!-- ─────────────────────────── Footer ────────────────────────── -->
+  <footer class="site-footer">
+    <span>© <span data-year>2026</span> Raghavesh Mishra</span>
+    <span>Designed &amp; coded in Hyderabad, over too much chai</span>
+    <a href="#top" class="to-top">Back to top ↑</a>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="assets/flowfield.js" defer></script>
+</body>
+</html>

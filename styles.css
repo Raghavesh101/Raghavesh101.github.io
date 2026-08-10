@@ -1,0 +1,651 @@
+/* ============================================================
+   Design tokens
+   ============================================================ */
+:root {
+  /* Default (light) — warm paper + near-black ink + an ember/vermilion accent */
+  --bg: #f1ede4;
+  --fg: #191714;
+  --muted: #6c675d;
+  --line: rgba(25, 23, 20, 0.15);
+  --accent: #e2522a; /* EDIT: single accent color (ember) */
+  --accent-fg: #f1ede4;
+
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  /* Fluid type scale (min .. max between 360px and 1440px viewports) */
+  --step--1: clamp(0.78rem, 0.74rem + 0.18vw, 0.9rem);
+  --step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+  --step-1: clamp(1.15rem, 1rem + 0.7vw, 1.6rem);
+  --step-2: clamp(1.6rem, 1.2rem + 1.8vw, 2.8rem);
+  --step-3: clamp(2.4rem, 1.4rem + 4.6vw, 5rem);
+  --hero: clamp(3.2rem, 0.5rem + 13vw, 12rem);
+
+  --pad: clamp(1.25rem, 0.6rem + 3vw, 4rem);
+  --gap: clamp(2.5rem, 1rem + 6vw, 8rem);
+  --radius: 14px;
+
+  /* One shared motion language: single easing + a timing scale */
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-1: 120ms; /* micro — hover, tap */
+  --dur-2: 240ms; /* standard — toggles, color */
+  --dur-3: 520ms; /* expressive — reveals, transitions */
+}
+
+[data-theme="dark"] {
+  --bg: #0c0b0a;
+  --fg: #ece8df;
+  --muted: #8b867b;
+  --line: rgba(236, 232, 223, 0.15);
+  --accent: #ff6a3c; /* brighter ember for contrast on charcoal */
+  --accent-fg: #0c0b0a;
+}
+
+/* ============================================================
+   Reset & base
+   ============================================================ */
+*,
+*::before,
+*::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.5;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  transition: background 0.6s var(--ease), color 0.6s var(--ease);
+}
+
+a { color: inherit; text-decoration: none; }
+ul, ol { list-style: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+
+::selection { background: var(--accent); color: var(--accent-fg); }
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  z-index: 200;
+  background: var(--accent);
+  color: var(--accent-fg);
+  padding: 0.6rem 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* ============================================================
+   Scroll progress bar (pure CSS, compositor-driven)
+   ============================================================ */
+.progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  z-index: 200;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+}
+@supports (animation-timeline: scroll()) {
+  .progress {
+    animation: progress-grow linear both;
+    animation-timeline: scroll(root);
+  }
+}
+@keyframes progress-grow {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+
+/* ============================================================
+   Decorative layers: grain + custom cursor
+   ============================================================ */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.cursor,
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 150;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate3d(-50%, -50%, 0);
+  mix-blend-mode: difference;
+}
+.cursor {
+  width: 34px;
+  height: 34px;
+  border: 1px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width var(--dur-2) var(--ease), height var(--dur-2) var(--ease),
+    background var(--dur-2) var(--ease), border-color var(--dur-2) var(--ease);
+}
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  background: #fff;
+}
+.cursor.is-hover {
+  width: 62px;
+  height: 62px;
+  background: #fff;
+}
+/* Hide custom cursor on touch / no-hover devices */
+@media (hover: none), (pointer: coarse) {
+  .cursor, .cursor-dot { display: none; }
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: clamp(1rem, 0.6rem + 1.5vw, 1.6rem) var(--pad);
+  mix-blend-mode: difference;
+  color: #fff;
+}
+
+.brand {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: var(--step-0);
+  letter-spacing: 0.02em;
+}
+.brand-dot { color: var(--accent); }
+
+.nav {
+  display: flex;
+  gap: clamp(1rem, 0.5rem + 1.5vw, 2.4rem);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+}
+.nav a {
+  position: relative;
+  padding-bottom: 2px;
+}
+.nav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.4s var(--ease);
+}
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+
+.theme-toggle {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  border: 1px solid currentColor;
+  border-radius: 100px;
+  padding: 0.4rem 0.9rem;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+.theme-toggle:hover { background: #fff; color: #000; }
+
+@media (max-width: 640px) {
+  .nav { display: none; }
+}
+
+/* ============================================================
+   Layout primitives
+   ============================================================ */
+main { padding: 0 var(--pad); }
+
+.section {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-block: var(--gap);
+  border-top: 1px solid var(--line);
+}
+
+.section-index {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+
+.section-lead {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+/* ============================================================
+   Hero
+   ============================================================ */
+.hero {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 6rem;
+  padding-bottom: 3rem;
+}
+
+/* Flow-field canvas sits behind the hero content */
+.hero-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.6;
+  mask-image: radial-gradient(120% 100% at 50% 40%, #000 55%, transparent 100%);
+  -webkit-mask-image: radial-gradient(120% 100% at 50% 40%, #000 55%, transparent 100%);
+}
+.hero > *:not(.hero-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: clamp(1rem, 0.5rem + 2vw, 2rem);
+}
+.eyebrow-dash {
+  width: clamp(24px, 4vw, 48px);
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-weight: 340;
+  font-size: var(--hero);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  display: flex;
+  flex-direction: column;
+}
+.hero-title-serif {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--muted);
+}
+
+/* Kinetic hero — masked line reveal on load */
+.hero-line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+}
+.hero-line-inner {
+  display: block;
+  transform: translateY(115%);
+  animation: hero-rise var(--dur-3) var(--ease) both;
+}
+.hero-line:nth-child(1) .hero-line-inner { animation-delay: 0.1s; }
+.hero-line:nth-child(2) .hero-line-inner { animation-delay: 0.22s; }
+@keyframes hero-rise {
+  from { transform: translateY(115%); }
+  to { transform: translateY(0); }
+}
+
+.hero-lede {
+  max-width: 34ch;
+  margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  font-size: var(--step-1);
+  line-height: 1.35;
+  color: var(--fg);
+}
+
+.hero-meta {
+  margin-top: auto;
+  padding-top: 2.5rem;
+  display: flex;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
+   Marquee
+   ============================================================ */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  padding-block: clamp(0.8rem, 0.5rem + 1vw, 1.4rem);
+  white-space: nowrap;
+}
+.marquee-track {
+  display: inline-flex;
+  align-items: center;
+  gap: clamp(1.5rem, 1rem + 2vw, 3rem);
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  color: var(--fg);
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+.marquee-track span { display: inline-block; }
+.marquee-star { color: var(--accent); font-style: normal; }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   About
+   ============================================================ */
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--pad);
+  align-items: start;
+}
+.about-body {
+  color: var(--muted);
+  font-size: var(--step-0);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  max-width: 46ch;
+  padding-top: 0.6rem;
+}
+@media (max-width: 860px) {
+  .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+}
+
+/* ============================================================
+   Work — minimal project list (no cards)
+   ============================================================ */
+.proj-list { border-top: 1px solid var(--line); }
+
+.proj-link {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(1rem, 0.5rem + 2vw, 4rem);
+  align-items: start;
+  padding-block: clamp(1.6rem, 1rem + 2vw, 2.8rem);
+  border-bottom: 1px solid var(--line);
+  transition: padding-left 0.45s var(--ease);
+}
+.proj-item:hover .proj-link { padding-left: clamp(0.5rem, 1.2vw, 1.6rem); }
+
+.proj-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.proj-name {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 340;
+  letter-spacing: -0.01em;
+  transition: color 0.35s var(--ease);
+}
+.proj-item:hover .proj-name { color: var(--accent); }
+.proj-name::after {
+  content: "\2197"; /* ↗ */
+  display: inline-block;
+  margin-left: 0.35ch;
+  color: var(--accent);
+  opacity: 0;
+  transform: translate(-0.4ch, 0.4ch);
+  transition: opacity var(--dur-2) var(--ease), transform var(--dur-2) var(--ease);
+}
+.proj-item:hover .proj-name::after { opacity: 1; transform: translate(0, 0); }
+.proj-year {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.proj-desc {
+  display: block;
+  color: var(--muted);
+  font-size: var(--step-0);
+  line-height: 1.45;
+  max-width: 52ch;
+}
+.proj-tags {
+  display: block;
+  margin-top: 0.9rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+@media (max-width: 720px) {
+  .proj-link { grid-template-columns: 1fr; gap: 0.9rem; }
+}
+
+/* ============================================================
+   Experience list
+   ============================================================ */
+.exp-list { border-top: 1px solid var(--line); }
+.exp-item {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr auto;
+  gap: 1rem;
+  align-items: baseline;
+  padding-block: clamp(1.2rem, 0.8rem + 1.5vw, 2rem);
+  border-bottom: 1px solid var(--line);
+  transition: padding-left 0.4s var(--ease), color 0.4s var(--ease);
+}
+.exp-item:hover { padding-left: clamp(0.5rem, 1vw, 1.5rem); }
+.exp-role {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-weight: 340;
+}
+.exp-company { color: var(--muted); }
+.exp-period {
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-align: right;
+}
+@media (max-width: 640px) {
+  .exp-item { grid-template-columns: 1fr auto; }
+  .exp-company { display: none; }
+}
+
+.pub {
+  margin-top: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  max-width: 62ch;
+  color: var(--muted);
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+.pub em { font-style: italic; color: var(--fg); }
+.pub-label {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+/* ============================================================
+   Contact
+   ============================================================ */
+.contact-lead {
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: var(--step-3);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  margin-bottom: clamp(1.5rem, 1rem + 2vw, 3rem);
+}
+.contact-note {
+  max-width: 46ch;
+  margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+  color: var(--muted);
+  font-size: var(--step-0);
+  line-height: 1.5;
+}
+
+.contact-email {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: var(--step-2);
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 0.2rem;
+  transition: color 0.3s var(--ease), border-color 0.3s var(--ease);
+}
+.contact-email:hover { color: var(--accent); border-color: var(--accent); }
+
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  margin-top: clamp(2rem, 1rem + 3vw, 4rem);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.socials a { color: var(--muted); transition: color 0.3s var(--ease); }
+.socials a:hover { color: var(--fg); }
+
+/* ============================================================
+   Footer
+   ============================================================ */
+.site-footer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: var(--gap) var(--pad) clamp(2rem, 1rem + 3vw, 4rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--step--1);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.to-top { color: var(--fg); }
+
+/* ============================================================
+   Scroll-reveal
+   ============================================================ */
+/* Reveal uses the independent `translate` property (not `transform`), so the
+   magnetic effect can own `transform` on the same element without conflict. */
+.reveal {
+  opacity: 0;
+  translate: 0 24px;
+  transition: opacity var(--dur-3) var(--ease), translate var(--dur-3) var(--ease);
+}
+.reveal.is-visible {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Native scroll-driven reveals where supported (0 KB JS; JS observer is the
+   Firefox fallback and is skipped by script.js when this is available). */
+@supports (animation-timeline: view()) {
+  .reveal {
+    opacity: 0;
+    translate: 0 24px;
+    transition: none;
+    animation: reveal-in var(--dur-3) var(--ease) both;
+    animation-timeline: view();
+    animation-range: entry 0% cover 32%;
+  }
+  @keyframes reveal-in {
+    from { opacity: 0; translate: 0 24px; }
+    to { opacity: 1; translate: 0 0; }
+  }
+}
+
+/* ============================================================
+   Animated metrics + magnetic micro-interactions + view transition
+   ============================================================ */
+.metric {
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+.magnetic {
+  transition: transform var(--dur-2) var(--ease);
+  will-change: transform;
+}
+
+@supports (view-transition-name: none) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--dur-3);
+    animation-timing-function: var(--ease);
+    mix-blend-mode: normal;
+  }
+}
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track { animation: none; }
+  .reveal { opacity: 1; translate: none; transform: none; transition: none; animation: none; }
+  .hero-line-inner { transform: none; animation: none; }
+  .progress { animation: none; }
+  ::view-transition-old(root),
+  ::view-transition-new(root) { animation: none; }
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
