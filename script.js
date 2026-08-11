@@ -156,6 +156,71 @@
   }
 
   // ---------------------------------------------------------
+  //  Background video: play only while in view (saves bandwidth
+  //  on the large file), and stay paused for reduced-motion.
+  // ---------------------------------------------------------
+  const bgVideos = document.querySelectorAll("[data-bg-video]");
+  if (bgVideos.length) {
+    if (reduceMotion) {
+      bgVideos.forEach((v) => {
+        v.removeAttribute("autoplay");
+        v.pause();
+      });
+    } else if ("IntersectionObserver" in window) {
+      const videoObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.play().catch(() => {});
+            } else {
+              entry.target.pause();
+            }
+          });
+        },
+        { threshold: 0.2 }
+      );
+      bgVideos.forEach((v) => videoObserver.observe(v));
+    } else {
+      bgVideos.forEach((v) => v.play().catch(() => {}));
+    }
+  }
+
+  // ---------------------------------------------------------
+  //  Page transitions — fade out before same-origin navigations
+  //  (in-page # links are handled by Lenis above and skipped here)
+  // ---------------------------------------------------------
+  if (!reduceMotion) {
+    document.addEventListener("click", (e) => {
+      if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      const link = e.target.closest("a");
+      if (!link) return;
+
+      const href = link.getAttribute("href");
+      if (!href || href.startsWith("#") || link.target === "_blank" || link.hasAttribute("download")) return;
+
+      let url;
+      try {
+        url = new URL(link.href, location.href);
+      } catch {
+        return;
+      }
+      if (url.origin !== location.origin) return; // external link
+      if (url.pathname === location.pathname && url.hash) return; // same page, just a hash
+
+      e.preventDefault();
+      document.body.classList.add("is-leaving");
+      window.setTimeout(() => {
+        window.location.href = link.href;
+      }, 240);
+    });
+
+    // Reset when returning via back/forward (bfcache restore)
+    window.addEventListener("pageshow", () => {
+      document.body.classList.remove("is-leaving");
+    });
+  }
+
+  // ---------------------------------------------------------
   //  Dynamic year in footer
   // ---------------------------------------------------------
   const yearEl = document.querySelector("[data-year]");

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Blog — Raghavesh Mishra</title>
+  <meta name="description" content="Writing and interests from Raghavesh Mishra — notes on AI evaluation, inference, agents, and the occasional rabbit hole." />
+  <meta name="author" content="Raghavesh Mishra" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://raghavesh101.github.io/blog/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://raghavesh101.github.io/blog/" />
+  <meta property="og:site_name" content="Raghavesh Mishra" />
+  <meta property="og:title" content="Blog — Raghavesh Mishra" />
+  <meta property="og:description" content="Notes on AI evaluation, inference, agents, and the occasional rabbit hole." />
+  <meta property="og:image" content="https://raghavesh101.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="theme-color" content="#ffffff" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..420&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#posts">Skip to posts</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="nav-pill">
+      <a href="../index.html" class="brand">Raghavesh<span class="brand-dot">.</span></a>
+      <nav class="nav" aria-label="Primary">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#work">Work</a>
+        <a href="index.html" aria-current="page">Blog</a>
+      </nav>
+      <a href="../index.html#contact" class="btn btn-dark nav-cta">Get in touch</a>
+    </div>
+  </header>
+
+  <main>
+    <!-- ─────────────────────── Writing intro ─────────────────────── -->
+    <section class="writing-hero">
+      <p class="eyebrow reveal" data-reveal>
+        <span class="eyebrow-mark" aria-hidden="true">✳</span> Writing &amp; interests
+      </p>
+      <h1 class="writing-title vf-rise">Notes on building AI that holds up.</h1>
+      <p class="writing-lede reveal" data-reveal>
+        Essays, experiments, and the things I geek out on — evaluation, inference,
+        agents, and the occasional rabbit hole. Written for my future self as much
+        as anyone.
+      </p>
+    </section>
+
+    <!-- ─────────────────────────── Posts ─────────────────────────── -->
+    <section class="section" id="posts">
+      <p class="section-index">All posts</p>
+
+      <ul class="post-list">
+        <li class="post-item reveal" data-reveal>
+          <a class="post-link" href="building-evals-i-trust.html">
+            <span class="post-meta"><time datetime="2026-08">Aug 2026</time> · Evals · 6 min</span>
+            <h2 class="post-title">Building evals I actually trust</h2>
+            <p class="post-blurb">
+              A demo that works once isn't a system that works. Here's how I think
+              about turning "looks good" into a number I'd stake a launch on.
+            </p>
+          </a>
+        </li>
+
+        <!-- ───────────────────────────────────────────────────────────────
+             EDIT: To add a post, copy one <li class="post-item"> block below,
+             create a matching HTML file (duplicate building-evals-i-trust.html),
+             and update the href, meta, title, and blurb.
+        ──────────────────────────────────────────────────────────────── -->
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span data-year>2026</span> Raghavesh Mishra</span>
+    <span>Designed in Hyderabad, over a lot of ☕</span>
+    <a href="#top" class="to-top">Back to top ↑</a>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script src="../script.js" defer></script>
+</body>
+</html>

@@ -5,15 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Raghavesh Mishra — Applied AI Engineer</title>
-  <meta name="description" content="Raghavesh Mishra — Applied AI Engineer building AI evaluation, agents, and RAG systems in production." />
+  <meta name="description" content="Raghavesh Mishra — Applied AI Engineer building AI evaluation, agents, and RAG systems in production. Currently at Highspot; alum of VIT Vellore." />
+  <meta name="author" content="Raghavesh Mishra" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="keywords" content="Raghavesh Mishra, AI Engineer, AI evaluation, LLM evals, RAG, AI agents, Highspot, VIT Vellore, Hyderabad" />
+  <link rel="canonical" href="https://raghavesh101.github.io/" />
 
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://raghavesh101.github.io/" />
+  <meta property="og:site_name" content="Raghavesh Mishra" />
   <meta property="og:title" content="Raghavesh Mishra — Applied AI Engineer" />
   <meta property="og:description" content="AI evaluation, agents, and RAG systems in production." />
-  <meta property="og:image" content="assets/og-image.svg" />
+  <meta property="og:image" content="https://raghavesh101.github.io/assets/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Raghavesh Mishra — Applied AI Engineer" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Raghavesh Mishra — Applied AI Engineer" />
+  <meta name="twitter:description" content="AI evaluation, agents, and RAG systems in production." />
+  <meta name="twitter:image" content="https://raghavesh101.github.io/assets/og-image.png" />
+
   <meta name="theme-color" content="#ffffff" />
 
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+
+  <!-- JSON-LD: Person schema (tells search engines who this is) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Raghavesh Mishra",
+    "url": "https://raghavesh101.github.io/",
+    "image": "https://raghavesh101.github.io/assets/og-image.png",
+    "jobTitle": "AI Software Engineer",
+    "email": "mailto:raghaveshm@gmail.com",
+    "worksFor": { "@type": "Organization", "name": "Highspot" },
+    "alumniOf": { "@type": "CollegeOrUniversity", "name": "Vellore Institute of Technology" },
+    "address": { "@type": "PostalAddress", "addressLocality": "Hyderabad", "addressCountry": "IN" },
+    "knowsAbout": ["AI evaluation", "LLM evaluation", "Retrieval-Augmented Generation", "AI agents", "Inference optimization"],
+    "sameAs": [
+      "https://github.com/Raghavesh101",
+      "https://www.linkedin.com/in/raghavesh-mishra",
+      "https://vsco.co/antherixd"
+    ]
+  }
+  </script>
 
   <!-- Fonts: Newsreader (display serif) · Inter (body / UI) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -35,6 +74,8 @@
         <a href="#about">About</a>
         <a href="#work">Work</a>
         <a href="#experience">Experience</a>
+        <a href="#interests">Interests</a>
+        <a href="blog/index.html">Blog</a>
       </nav>
       <a href="#contact" class="btn btn-dark nav-cta">Get in touch</a>
     </div>
@@ -43,30 +84,30 @@
   <main id="top">
     <!-- ─────────────────────────── Hero ─────────────────────────── -->
     <section class="hero" id="hero">
-      <!-- Soft pastel aurora — blurred gradient blobs drifting behind the name -->
-      <div class="aurora" data-aurora aria-hidden="true">
-        <span class="aurora-blob b1"></span>
-        <span class="aurora-blob b2"></span>
-        <span class="aurora-blob b3"></span>
-      </div>
+      <video class="hero-video" muted loop playsinline preload="metadata" data-bg-video aria-hidden="true">
+        <source src="assets/hero.mp4" type="video/mp4" />
+      </video>
+      <div class="hero-scrim" aria-hidden="true"></div>
 
-      <p class="eyebrow reveal" data-reveal>
-        <span class="eyebrow-mark" aria-hidden="true">✳</span> Applied AI Engineer · Hyderabad, India
-      </p>
+      <div class="hero-inner">
+        <p class="eyebrow reveal" data-reveal>
+          <span class="eyebrow-mark" aria-hidden="true">✳</span> Applied AI Engineer · Hyderabad, India
+        </p>
 
-      <h1 class="hero-title">
-        <span class="hero-line"><span class="hero-line-inner">Raghavesh</span></span>
-        <span class="hero-line"><span class="hero-line-inner">Mishra</span></span>
-      </h1>
+        <h1 class="hero-title">
+          <span class="hero-line"><span class="hero-line-inner">Raghavesh</span></span>
+          <span class="hero-line"><span class="hero-line-inner">Mishra</span></span>
+        </h1>
 
-      <p class="hero-lede reveal" data-reveal>
-        I build AI systems — then prove they actually work. The evals, the traces,
-        the edge cases everyone skips: that's my favourite part.
-      </p>
+        <p class="hero-lede reveal" data-reveal>
+          I build AI systems and prove they hold up. The evals, the traces,
+          the edge cases everyone skips — that's my favourite part.
+        </p>
 
-      <div class="hero-cta reveal" data-reveal>
-        <a class="btn btn-dark" href="#work">View work</a>
-        <a class="btn btn-outline" href="#contact">Get in touch</a>
+        <div class="hero-cta reveal" data-reveal>
+          <a class="btn btn-light" href="#work">View work</a>
+          <a class="btn btn-ghost" href="#contact">Get in touch</a>
+        </div>
       </div>
     </section>
 
@@ -90,7 +131,7 @@
     <section class="section about" id="about">
       <p class="section-index">About</p>
       <div class="about-grid">
-        <h2 class="section-lead reveal" data-reveal>
+        <h2 class="section-lead fill-text">
           My whole job is one question: does this actually work? Then I measure
           until I'm sure.
         </h2>
@@ -98,13 +139,13 @@
           <p>
             Right now I'm at Highspot, building the evals, agent pipelines, and
             observability that show whether our AI features hold up against real
-            customer traffic — not just in a demo. Before that, Verizon, then research
+            customer traffic & not just in a demo. Before that, Verizon, then research
             at Samsung R&amp;D.
           </p>
           <p>
-            I studied Computer Science at VIT Vellore. Outside work, you'll usually
-            find me deep in a latency graph or chasing the one strange query that
-            breaks everything.
+            I studied Computer Science at VIT Vellore. Give me a free afternoon and 
+            it'll probably disappear over a chessboard, a book, or a badminton court. 
+            I’m naturally curious, mildly competitive, and always up for trying something new.
           </p>
         </div>
       </div>
@@ -129,6 +170,7 @@
               accuracy trade-offs. A research-style artifact, in progress.
             </p>
             <span class="card-tags">PyTorch · torch.compile · Triton · INT8 · Roofline</span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
 
@@ -146,6 +188,7 @@
               outages.
             </p>
             <span class="card-tags">Go · Redis · Docker · Kubernetes</span>
+            <span class="card-arrow" aria-hidden="true">↗</span>
           </a>
         </li>
       </ul>
@@ -157,19 +200,63 @@
 
       <ol class="exp-list">
         <li class="exp-item reveal" data-reveal>
-          <span class="exp-role">AI Software Engineer</span>
-          <span class="exp-company">Highspot India</span>
-          <span class="exp-period">2025 — Now</span>
+          <details class="exp-details" open>
+            <summary class="exp-summary">
+              <span class="exp-period">2025 — Now</span>
+              <span class="exp-head">
+                <span class="exp-role">AI Software Engineer</span>
+                <span class="exp-company">Highspot India</span>
+              </span>
+              <span class="exp-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="exp-panel">
+              <div class="exp-panel-inner">
+                <p class="exp-blurb">Making sure the AI we ship is actually good.</p>
+                <p class="exp-desc">I work on how Highspot knows its AI features are good enough to ship. That means the evaluation harness that scores models against benchmarks, the tracing that shows what an agent actually did on a request, and a few internal agents that take grunt work off engineers.</p>
+                <span class="exp-tags">Evals · Agents · Observability · FastAPI · Python</span>
+              </div>
+            </div>
+          </details>
         </li>
+
         <li class="exp-item reveal" data-reveal>
-          <span class="exp-role">Software Engineer Intern</span>
-          <span class="exp-company">Verizon India</span>
-          <span class="exp-period">2025</span>
+          <details class="exp-details">
+            <summary class="exp-summary">
+              <span class="exp-period">2025</span>
+              <span class="exp-head">
+                <span class="exp-role">Software Engineer Intern</span>
+                <span class="exp-company">Verizon India</span>
+              </span>
+              <span class="exp-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="exp-panel">
+              <div class="exp-panel-inner">
+                <p class="exp-blurb">Backend for a high-traffic commerce platform.</p>
+                <p class="exp-desc">A backend internship on Verizon's enterprise ordering platform. I built catalog and ordering features for customers, and spent most of my time on the unglamorous half — making pages faster, payloads smaller, and the defect list shorter with the SRE team.</p>
+                <span class="exp-tags">Backend · Microservices · REST · Performance</span>
+              </div>
+            </div>
+          </details>
         </li>
+
         <li class="exp-item reveal" data-reveal>
-          <span class="exp-role">Research Intern</span>
-          <span class="exp-company">Samsung R&amp;D</span>
-          <span class="exp-period">2023 — 2024</span>
+          <details class="exp-details">
+            <summary class="exp-summary">
+              <span class="exp-period">2023 — 2024</span>
+              <span class="exp-head">
+                <span class="exp-role">Research Intern</span>
+                <span class="exp-company">Samsung R&amp;D</span>
+              </span>
+              <span class="exp-toggle" aria-hidden="true"></span>
+            </summary>
+            <div class="exp-panel">
+              <div class="exp-panel-inner">
+                <p class="exp-blurb">My first taste of research.</p>
+                <p class="exp-desc">The problem: making Retrieval-Augmented Generation cheap enough to actually run. I worked on caching, quantization, and splitting the model across devices to cut its memory use and latency. It turned into a paper that's now under review.</p>
+                <span class="exp-tags">RAG · Quantization · FAISS · PyTorch</span>
+              </div>
+            </div>
+          </details>
         </li>
       </ol>
 
@@ -184,10 +271,32 @@
       </p>
     </section>
 
+    <!-- ────────────────────── Interests / Photography ────────────────────── -->
+    <section class="interests" id="interests">
+      <video class="interests-media" muted loop playsinline preload="metadata"
+             poster="assets/photography-poster.jpg" data-bg-video aria-hidden="true">
+        <source src="assets/interests.mp4" type="video/mp4" />
+      </video>
+      <div class="interests-scrim" aria-hidden="true"></div>
+
+      <div class="interests-content">
+        <p class="eyebrow reveal" data-reveal>
+          <span class="eyebrow-mark" aria-hidden="true">✳</span> Off the clock
+        </p>
+        <h2 class="interests-title vf-rise">I chase light.</h2>
+        <p class="interests-lede reveal" data-reveal>
+          When I'm not buried in evals and traces, I'm out with a camera to capture mountains,
+          streets, and the quiet in between. Photography is how I reset.
+        </p>
+        <a class="btn btn-light reveal" data-reveal href="https://vsco.co/antherixd/gallery"
+           target="_blank" rel="noopener noreferrer">View my gallery ↗</a>
+      </div>
+    </section>
+
     <!-- ─────────────────────────── Contact ───────────────────────── -->
     <section class="section contact" id="contact">
       <p class="section-index">Contact</p>
-      <h2 class="contact-lead reveal" data-reveal>Come say hi —<br />I'd love to hear it.</h2>
+      <h2 class="contact-lead fill-text">Come say hi —<br />I'd love to hear it.</h2>
 
       <p class="contact-note reveal" data-reveal>
         Whether it's a role, a research idea, or just a good AI problem — email is
@@ -206,7 +315,7 @@
   <!-- ─────────────────────────── Footer ────────────────────────── -->
   <footer class="site-footer">
     <span>© <span data-year>2026</span> Raghavesh Mishra</span>
-    <span>Designed &amp; coded in Hyderabad, over too much chai</span>
+    <span>Designed in Hyderabad, over a lot of ☕</span>
     <a href="#top" class="to-top">Back to top ↑</a>
   </footer>
 

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- EDIT: update title/description per post -->
+  <title>Building evals I actually trust — Raghavesh Mishra</title>
+  <meta name="description" content="How I turn 'the demo looks good' into an evaluation number I'd stake a launch on." />
+  <meta name="author" content="Raghavesh Mishra" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <link rel="canonical" href="https://raghavesh101.github.io/blog/building-evals-i-trust.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://raghavesh101.github.io/blog/building-evals-i-trust.html" />
+  <meta property="og:site_name" content="Raghavesh Mishra" />
+  <meta property="og:title" content="Building evals I actually trust" />
+  <meta property="og:description" content="How I turn 'the demo looks good' into an evaluation number I'd stake a launch on." />
+  <meta property="og:image" content="https://raghavesh101.github.io/assets/og-image.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <meta name="theme-color" content="#ffffff" />
+
+  <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Building evals I actually trust",
+    "description": "How I turn 'the demo looks good' into an evaluation number I'd stake a launch on.",
+    "datePublished": "2026-08-01",
+    "author": { "@type": "Person", "name": "Raghavesh Mishra", "url": "https://raghavesh101.github.io/" },
+    "publisher": { "@type": "Person", "name": "Raghavesh Mishra" },
+    "mainEntityOfPage": "https://raghavesh101.github.io/blog/building-evals-i-trust.html",
+    "image": "https://raghavesh101.github.io/assets/og-image.png"
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..600&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..420&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="nav-pill">
+      <a href="../index.html" class="brand">Raghavesh<span class="brand-dot">.</span></a>
+      <nav class="nav" aria-label="Primary">
+        <a href="../index.html#about">About</a>
+        <a href="../index.html#work">Work</a>
+        <a href="index.html" aria-current="page">Blog</a>
+      </nav>
+      <a href="../index.html#contact" class="btn btn-dark nav-cta">Get in touch</a>
+    </div>
+  </header>
+
+  <main>
+    <article class="article" id="article">
+      <a href="index.html" class="back-link">← All posts</a>
+
+      <!-- EDIT: post meta + title -->
+      <p class="article-meta"><time datetime="2026-08">August 2026</time> · Evals · 6 min read</p>
+      <h1 class="article-title">Building evals I actually trust</h1>
+
+      <!-- EDIT: everything inside .prose is your writing. This is a starter. -->
+      <div class="prose">
+        <p>
+          A demo that works once is a magic trick. A system that works is a claim
+          you can defend with a number. Most of my job lives in the gap between the
+          two — and evaluation is the bridge.
+        </p>
+
+        <h2>Start with the question, not the metric</h2>
+        <p>
+          Before I reach for accuracy or F1, I ask what "good" even means for this
+          feature. A retrieval answer can be fluent and confidently wrong. If the
+          metric can't tell those apart, it's the wrong metric.
+        </p>
+
+        <blockquote>
+          If you can't describe the failure you're afraid of, you can't measure
+          whether you fixed it.
+        </blockquote>
+
+        <h2>Build a tiny, honest dataset first</h2>
+        <p>
+          Twenty hand-labelled examples that cover the failure modes beat two
+          thousand scraped ones that don't. I look for:
+        </p>
+        <ul>
+          <li>The easy cases (a sanity floor).</li>
+          <li>The adversarial cases (where it actually breaks).</li>
+          <li>The ambiguous cases (where even humans disagree).</li>
+        </ul>
+
+        <h2>Make it runnable in one command</h2>
+        <p>
+          An eval you have to babysit is an eval you'll skip under deadline. Mine
+          run like tests:
+        </p>
+        <pre><code>$ python eval.py --suite retrieval --n 200
+faithfulness   0.91
+answer_recall  0.84
+latency_p95    810ms</code></pre>
+
+        <p>
+          Then I watch the number move as I change one thing at a time. That's the
+          whole game: a baseline, a hypothesis, and a metric honest enough to tell
+          me I was wrong.
+        </p>
+      </div>
+
+      <div class="article-tags">Evals · RAG · Measurement</div>
+
+      <a href="index.html" class="back-link back-link-bottom">← All posts</a>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <span>© <span data-year>2026</span> Raghavesh Mishra</span>
+    <span>Designed in Hyderabad, over a lot of ☕</span>
+    <a href="#article" class="to-top">Back to top ↑</a>
+  </footer>
+
+  <script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js" defer></script>
+  <script src="../script.js" defer></script>
+</body>
+</html>
