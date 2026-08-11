@@ -4,70 +4,68 @@
 (() => {
   "use strict";
 
-  const root = document.documentElement;
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const supportsScrollTimeline =
     "CSS" in window && CSS.supports && CSS.supports("animation-timeline: view()");
+  const supportsScrollProgress =
+    "CSS" in window && CSS.supports && CSS.supports("animation-timeline: scroll()");
 
   // ---------------------------------------------------------
-  //  Theme toggle — persisted, with a View Transitions crossfade
+  //  Smooth "glide" scrolling with Lenis (loaded from CDN).
+  //  The single biggest perceived-quality upgrade. Off when
+  //  the user prefers reduced motion.
   // ---------------------------------------------------------
-  const THEME_KEY = "portfolio-theme";
-  const toggle = document.querySelector("[data-theme-toggle]");
-  const label = document.querySelector("[data-theme-label]");
+  let lenis = null;
+  if (!reduceMotion && typeof window.Lenis === "function") {
+    lenis = new window.Lenis({ duration: 1.05, smoothWheel: true });
+    const raf = (time) => {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    };
+    requestAnimationFrame(raf);
 
-  const applyTheme = (theme) => {
-    root.setAttribute("data-theme", theme);
-    if (label) label.textContent = theme === "dark" ? "Light" : "Dark";
-  };
-
-  // Initial theme is set pre-paint by the inline <head> script; just sync the label.
-  applyTheme(root.getAttribute("data-theme") || "light");
-
-  if (toggle) {
-    toggle.addEventListener("click", () => {
-      const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
-      const commit = () => {
-        applyTheme(next);
-        localStorage.setItem(THEME_KEY, next);
-      };
-      // Full-page color crossfade where supported (and motion is allowed)
-      if (!reduceMotion && document.startViewTransition) {
-        document.startViewTransition(commit);
-      } else {
-        commit();
-      }
+    // Keep in-page anchor links working through Lenis.
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener("click", (e) => {
+        const id = link.getAttribute("href");
+        if (!id || id === "#") return;
+        const target = document.querySelector(id);
+        if (!target) return;
+        e.preventDefault();
+        lenis.scrollTo(target, { offset: -20 });
+      });
     });
   }
 
   // ---------------------------------------------------------
-  //  Custom cursor (skipped on touch / reduced-motion)
+  //  Header condenses once the page is scrolled
   // ---------------------------------------------------------
-  const ring = document.querySelector("[data-cursor]");
-  const dot = document.querySelector("[data-cursor-dot]");
+  const header = document.querySelector(".site-header");
+  const progress = document.querySelector(".scroll-progress");
 
-  if (ring && dot && finePointer && !reduceMotion) {
-    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
-
-    window.addEventListener("mousemove", (e) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
-    });
-
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.18;
-      ringY += (mouseY - ringY) * 0.18;
-      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
-      requestAnimationFrame(animate);
+  if (header || (progress && !supportsScrollProgress)) {
+    let ticking = false;
+    const onScroll = () => {
+      const y = window.scrollY || document.documentElement.scrollTop;
+      if (header) header.classList.toggle("is-scrolled", y > 24);
+      if (progress && !supportsScrollProgress) {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        progress.style.setProperty("--scroll", max > 0 ? (y / max).toFixed(4) : "0");
+      }
+      ticking = false;
     };
-    requestAnimationFrame(animate);
-
-    document.querySelectorAll("a, button").forEach((el) => {
-      el.addEventListener("mouseenter", () => ring.classList.add("is-hover"));
-      el.addEventListener("mouseleave", () => ring.classList.remove("is-hover"));
-    });
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(onScroll);
+        }
+      },
+      { passive: true }
+    );
+    onScroll();
   }
 
   // ---------------------------------------------------------
@@ -77,7 +75,6 @@
   const revealItems = document.querySelectorAll("[data-reveal]");
 
   if (reduceMotion || supportsScrollTimeline) {
-    // CSS handles it (or motion is off) — make sure nothing is stuck hidden.
     if (!supportsScrollTimeline) revealItems.forEach((el) => el.classList.add("is-visible"));
   } else if ("IntersectionObserver" in window) {
     const observer = new IntersectionObserver(
@@ -112,8 +109,7 @@
     const to = parseFloat(el.dataset.to || "0");
     const duration = 1100;
     const start = performance.now();
-    // easeOutCubic for a natural settle
-    const ease = (t) => 1 - Math.pow(1 - t, 3);
+    const ease = (t) => 1 - Math.pow(1 - t, 3); // easeOutCubic
 
     const tick = (now) => {
       const t = Math.min((now - start) / duration, 1);
@@ -142,17 +138,16 @@
   }
 
   // ---------------------------------------------------------
-  //  Magnetic micro-interactions (pointer-fine, motion-on only)
+  //  Magnetic micro-interactions on pill buttons
   // ---------------------------------------------------------
   if (finePointer && !reduceMotion) {
-    const magnets = document.querySelectorAll("[data-theme-toggle], .contact-email");
-    magnets.forEach((el) => {
+    document.querySelectorAll(".btn").forEach((el) => {
       el.classList.add("magnetic");
       el.addEventListener("mousemove", (e) => {
         const r = el.getBoundingClientRect();
         const x = e.clientX - (r.left + r.width / 2);
         const y = e.clientY - (r.top + r.height / 2);
-        el.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        el.style.transform = `translate(${x * 0.22}px, ${y * 0.28}px)`;
       });
       el.addEventListener("mouseleave", () => {
         el.style.transform = "";
